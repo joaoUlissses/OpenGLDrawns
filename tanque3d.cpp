@@ -1,16 +1,57 @@
-#include <math.h>
 #include <stdlib.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
+#include <iostream>
+#include "stb_image.h"
+#include <string>
 
     GLUquadric* quad;
     float angleX = 0.0f;
     float angleY = 0.0f;
 
+// void carregarTextura(std::string filePath){
+//     unsigned char* imgData;
+
+//     imgData=stbi_load(filePath.c_str(),&largura, &aluta, &canais,4);
+// }
 void init(){
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glEnable(GL_DEPTH_TEST);
+}
+
+void quadrado(float Ybaixo, float Ycima,float Xesquerda,float Xdireita,float Zfrente,float Zatras){
+    //cubo
+    glBegin(GL_QUADS);//l1
+        glVertex3f(Xesquerda,Ybaixo,Zfrente);//a
+        glVertex3f(Xdireita,Ybaixo,Zfrente);//b
+        glVertex3f(Xdireita,Ycima,Zfrente);//c
+        glVertex3f(Xesquerda,Ycima,Zfrente);//d
+    glBegin(GL_QUADS);//l6
+        glVertex3f(Xesquerda,Ybaixo,Zatras);//h
+        glVertex3f(Xdireita,Ybaixo,Zatras);//e
+        glVertex3f(Xdireita,Ycima,Zatras);//f
+        glVertex3f(Xesquerda,Ycima,Zatras);//g
+    glBegin(GL_QUADS);//l2
+        glVertex3f(Xdireita,Ycima,Zfrente);//c
+        glVertex3f(Xdireita,Ycima,Zatras);//f
+        glVertex3f(Xesquerda,Ycima,Zatras);//g
+        glVertex3f(Xesquerda,Ycima,Zfrente);//d
+    glBegin(GL_QUADS);//l5
+        glVertex3f(Xesquerda,Ybaixo,Zfrente);//a
+        glVertex3f(Xdireita,Ybaixo,Zfrente);//b
+        glVertex3f(Xdireita,Ybaixo,Zatras);//e
+        glVertex3f(Xesquerda,Ybaixo,Zatras);//h
+    glBegin(GL_QUADS);//l3
+        glVertex3f(Xdireita,Ybaixo,Zfrente);//b
+        glVertex3f(Xdireita,Ycima,Zfrente);//c
+        glVertex3f(Xdireita,Ycima,Zatras);//f
+        glVertex3f(Xdireita,Ybaixo,Zatras);//e
+    glBegin(GL_QUADS);//l4
+        glVertex3f(Xesquerda,Ybaixo,Zfrente);//a
+        glVertex3f(Xesquerda,Ybaixo,Zatras);//h
+        glVertex3f(Xesquerda,Ycima,Zatras);//g
+        glVertex3f(Xesquerda,Ycima,Zfrente);//d
 }
 void display(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -22,173 +63,20 @@ void display(){
     glRotatef(angleX, 1.0f, 0.0f, 0.0f);
     glRotatef(angleY, 0.0f, 1.0f, 0.0f);
     
-        //corpo principal
-    glBegin(GL_QUADS);//l1
-    glColor3f(0.0, 0.0, 1.0); // Vermelho
-        glVertex3f(-1.0, -1.0, 1.4);//a
-        glVertex3f(1.0, -1.0, 1.4);//b
-        glVertex3f(1.0, 0.5, 1.4);//c
-        glVertex3f(-1.0, 0.5, 1.4);//d
-
-    glBegin(GL_QUADS);//l6
-        glVertex3d(-1.0,-1.0,-1.4);//h
-        glVertex3f(1.0, -1.0, -1.4);//e
-        glVertex3f(1.0, 0.5, -1.4);//f
-        glVertex3d(-1.0,0.5,-1.4);//g
-
-    glBegin(GL_QUADS);//l3
-        glVertex3f(1.0, -1.0, 1.4);//b
-        glVertex3f(1.0, 0.5, 1.4);//c
-        glVertex3f(1.0, 0.5, -1.4);//f
-        glVertex3f(1.0, -1.0, -1.4);//e
-
-    glBegin(GL_QUADS);//l4
-        glVertex3f(-1.0, -1.0, 1.4);//a
-        glVertex3d(-1.0,-1.0,-1.4);//h
-        glVertex3d(-1.0,0.5,-1.4);//g
-        glVertex3f(-1.0, 0.5, 1.4);//d
-
-    glBegin(GL_QUADS);//l2
-        glVertex3f(1.0, 0.5, 1.4);//c
-        glVertex3f(1.0, 0.5, -1.4);//f
-        glVertex3d(-1.0,0.5,-1.4);//g
-        glVertex3f(-1.0,0.5, 1.4);//d
-
-    glBegin(GL_QUADS);//l5 
-        glVertex3f(-1.0, -1.0, 1.4);//a
-        glVertex3f(1.0, -1.0, 1.4);//b
-        glVertex3f(1.0, -1.0, -1.4);//e
-        glVertex3d(-1.0,-1.0,-1.4);//h
-        
-
-    //roda esquerda 
-    glBegin(GL_QUADS);//l1
-    glColor3f(1.0f,1.0f,0.0f); //amarelo
-        glVertex3f(0.7,-0.5,1.6);//a
-        glVertex3f(1.7,-0.5,1.6);//b
-        glVertex3f(1.7,-1.2,1.6);//c
-        glVertex3f(0.7,-1.2,1.6);//d
-    glBegin(GL_QUADS);//l6
-        glVertex3f(0.7,-0.5,-1.6);//h
-        glVertex3f(1.7,-0.5,-1.6);//e
-        glVertex3f(1.7,-1.2,-1.6);//f
-        glVertex3f(0.7,-1.2,-1.6);//g
-    glBegin(GL_QUADS);//l2
-        glVertex3f(1.7,-1.2,1.6);//c
-        glVertex3f(1.7,-1.2,-1.6);//f
-        glVertex3f(0.7,-1.2,-1.6);//g
-        glVertex3f(0.7,-1.2,1.6);//d
-    glBegin(GL_QUADS);//l5
-        glVertex3f(0.7,-0.5,1.6);//a
-        glVertex3f(1.7,-0.5,1.6);//b
-        glVertex3f(1.7,-0.5,-1.6);//e
-        glVertex3f(0.7,-0.5,-1.6);//h
-    glBegin(GL_QUADS);//l3
-        glVertex3f(1.7,-0.5,1.6);//b
-        glVertex3f(1.7,-1.2,1.6);//c
-        glVertex3f(1.7,-1.2,-1.6);//f
-        glVertex3f(1.7,-0.5,-1.6);//e
-
-    glBegin(GL_QUADS);//l4
-        glVertex3f(0.7,-0.5,1.6);//a
-        glVertex3f(0.7,-0.5,-1.6);//h
-        glVertex3f(0.7,-1.2,-1.6);//g
-        glVertex3f(0.7,-1.2,1.6);//d
-    //roda direita
-    glBegin(GL_QUADS);//l1
-    glColor3f(1.0f,1.0f,0.0f); //amarelo
-        glVertex3f(-0.7,-0.5,1.6);//a
-        glVertex3f(-1.7,-0.5,1.6);//b
-        glVertex3f(-1.7,-1.2,1.6);//c
-        glVertex3f(-0.7,-1.2,1.6);//d
-    glBegin(GL_QUADS);//l6
-        glVertex3f(-0.7,-0.5,-1.6);//h
-        glVertex3f(-1.7,-0.5,-1.6);//e
-        glVertex3f(-1.7,-1.2,-1.6);//f
-        glVertex3f(-0.7,-1.2,-1.6);//g
-    glBegin(GL_QUADS);//l2
-        glVertex3f(-1.7,-1.2,1.6);//c
-        glVertex3f(-1.7,-1.2,-1.6);//f
-        glVertex3f(-0.7,-1.2,-1.6);//g
-        glVertex3f(-0.7,-1.2,1.6);//d
-    glBegin(GL_QUADS);//l5
-        glVertex3f(-0.7,-0.5,1.6);//a
-        glVertex3f(-1.7,-0.5,1.6);//b
-        glVertex3f(-1.7,-0.5,-1.6);//e
-        glVertex3f(-0.7,-0.5,-1.6);//h
-    glBegin(GL_QUADS);//l3 
-        glVertex3f(-1.7,-0.5,1.6);//b
-        glVertex3f(-1.7,-1.2,1.6);//c
-        glVertex3f(-1.7,-1.2,-1.6);//f
-        glVertex3f(-1.7,-0.5,-1.6);//e
-
-    glBegin(GL_QUADS);//l4
-        glVertex3f(-0.7,-0.5,1.6);//a
-        glVertex3f(-0.7,-0.5,-1.6);//h
-        glVertex3f(-0.7,-1.2,-1.6);//g
-        glVertex3f(-0.7,-1.2,1.6);//d
-
+    //corpo principal
+    glColor3f(0.0,0.0,1.0);
+    quadrado(-1.0,0.5,-1.0,1.0,1.4,-1.4);
     //torre
-    glBegin(GL_QUADS);//l1
-    glColor3f(0.0f,1.0f,0.0f);
-        glVertex3d(-0.4,0.5,-0.7);//a
-        glVertex3f(0.4, 0.5,-0.7);//b
-        glVertex3d(0.4,1.3,-0.7);//c
-        glVertex3f(-0.4, 1.3,-0.7);//d
-    glBegin(GL_QUADS);//l6
-        glVertex3d(-0.4,0.5,0.4);//h
-        glVertex3f(0.4, 0.5,0.4);//e
-        glVertex3d(0.4,1.3,0.4);//f
-        glVertex3f(-0.4,1.3,0.4);//g
-    glBegin(GL_QUADS);//l3
-        glVertex3f(0.4, 0.5,-0.7);//b
-        glVertex3d(0.4,1.3,-0.7);//c
-        glVertex3d(0.4,1.3,0.4);//f
-        glVertex3f(0.4, 0.5,0.4);//e
-    glBegin(GL_QUADS);//l4
-        glVertex3d(-0.4,0.5,-0.7);//a
-        glVertex3d(-0.4,0.5,0.4);//h
-        glVertex3f(-0.4,1.3,0.4);//g
-        glVertex3f(-0.4, 1.3,-0.7);//d
-    glBegin(GL_QUADS);//l2
-        glVertex3d(0.4,1.3,-0.7);//c
-        glVertex3d(0.4,1.3,0.4);//f
-        glVertex3f(-0.4,1.3,0.4);//g
-        glVertex3f(-0.4, 1.3,-0.7);//d
-
+    glColor3f(0.0,1.0,0.0);
+    quadrado(0.5,1.3,-0.4,0.4,-0.7,0.4);
     //canhao
-    glBegin(GL_QUADS);//l1
-    glColor3f(0.85f,0.0f,0.9f);//l1 excluir depois por ser inutil
-        glVertex3d(-0.2,0.7,0.4);//a
-        glVertex3f(0.2, 0.7,0.4);//b
-        glVertex3d(0.2,1.0,0.4);//c
-        glVertex3f(-0.2,1.0,0.4);//d
-    glBegin(GL_QUADS);// l6
-        glVertex3d(-0.2,0.7,2.4);//h
-        glVertex3f(0.2, 0.7,2.4);//e
-        glVertex3d(0.2,1.0,2.4);//f
-        glVertex3f(-0.2,1.0,2.4);//g
-    glBegin(GL_QUADS);// 2
-        glVertex3d(0.2,1.0,0.4);//c
-        glVertex3d(0.2,1.0,2.4);//f
-        glVertex3f(-0.2,1.0,2.4);//g
-        glVertex3f(-0.2,1.0,0.4);//d
-    glBegin(GL_QUADS);// 5
-        glVertex3d(-0.2,0.7,0.4);//a
-        glVertex3f(0.2, 0.7,0.4);//b
-        glVertex3f(0.2, 0.7,2.4);//e
-        glVertex3d(-0.2,0.7,2.4);//h
-    glBegin(GL_QUADS);// 3
-        glVertex3f(0.2, 0.7,0.4);//b
-        glVertex3d(0.2,1.0,0.4);//c
-        glVertex3d(0.2,1.0,2.4);//f
-        glVertex3f(0.2, 0.7,2.4);//e
-    glBegin(GL_QUADS);// 4
-        glVertex3d(-0.2,0.7,0.4);//a
-        glVertex3d(-0.2,0.7,2.4);//h
-        glVertex3f(-0.2,1.0,2.4);//g
-        glVertex3f(-0.2,1.0,0.4);//d
-        
+    glColor3f(0.85,0.0,0.9);
+    quadrado(0.7,1.0,-0.2,0.2,0.4,2.4);
+    //roda esquerda 
+    glColor3f(1.0,1.0,0.0);
+    quadrado(-1.2,-0.5,1.7,0.7,1.6,-1.6);
+    //roda direita
+    quadrado(-1.2,-0.5,-1.7,-0.7,1.6,-1.6);
         glEnd();
 
     glutSwapBuffers();
